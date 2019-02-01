@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Term - {{ data['title'] }}</h1>
+
+  <!-- ################# -->
+  <!-- Copy Current Term -->
+  <!-- ################# -->
+  <form style="display: inline;" method="POST" action="{{ url_for('copyterm', _external=true) }}">
+    {{ termCopyForm.csrf_token }}
+    {{ termCopyForm.id(value=data['id']) }}
+    {{ termCopyForm.submit }}
+  </form>
+
+  <!-- ################ -->
+  <!-- Term Information -->
+  <!-- ################ -->
+  <table class="termdata">
+    <tr>
+      <th>Income</th>
+      <th>Leftover</th>
+      <th>Planned Leftover</th>
+      <th>Spendings</th>
+      <th>Planned Spendings</th>
+    </tr>
+    <tr>
+      <td>
+        <form style="display: inline;" method="POST" action="{{ url_for('modifyterm', _external=true) }}">
+          {{ termModifyForm.csrf_token }}
+          {{ termModifyForm.id(value=data['id']) }}
+          {{ termModifyForm.income(value=data['income']) }} €
+        </form>
+      </td>
+      <td>{{ data['leftover'] }} €</td>
+      <td>{{ data['plannedLeftover'] }} €</td>
+      <td>{{ data['spendings'] }} €</td>
+      <td>{{ data['plannedSpendings'] }} €</td>
+    </tr>
+  </table>
+
+  <!-- ################# -->
+  <!-- Start Budget List -->
+  <!-- ################# -->
+  <div class="budgetlist">
+    {% for budget in data['budgets'] %}
+
+    <div class="budget">
+      <!-- ############# -->
+      <!-- Budget Header -->
+      <!-- ############# -->
+      <div class="budgethead">
+        <form style="display: inline;" method="POST" action="{{ url_for('editbudget', _external=true) }}">
+          {{ budgetModifyForm.csrf_token }}
+          {{ budgetModifyForm.id(value=budget['id']) }}
+          {{ budgetModifyForm.title(value=budget['title'], class='budgettitle') }}
+          {% if budget['budget']|float > 0 %}
+            {{ budgetModifyForm.budget(value=budget['budget'], class='numberinput') }} €
+          {% else %}
+            {{ budgetModifyForm.budget(value="-", class='numberinput') }}
+          {% endif %}
+          {% if budget['closed'] %}
+            {{ budgetModifyForm.closed(checked=True) }}
+          {% else %}
+            {{ budgetModifyForm.closed() }}
+          {% endif %}
+          {{ budgetModifyForm.submit(value='Edit') }}
+        </form>
+        <form style="display: inline;" method="POST" action="{{ url_for('deletebudget', _external=true) }}">
+          {{ budgetDeleteForm.csrf_token }}
+          {{ budgetDeleteForm.id(value=budget['id']) }}
+          {{ budgetDeleteForm.submit(value='Delete') }}
+        </form>
+        <table>
+          <tr>
+            {% if budget['budget']|float > 0 %}
+              <th>Leftover</th>
+              <th>Planned Leftover</th>
+            {% endif %}
+            <th>Spendings</th>
+            <th>Planned Spendings</th>
+          </tr>
+          <tr>
+            {% if budget['budget']|float > 0 %}
+              <td>{{ budget['leftover'] }} €</td>
+              <td>{{ budget['plannedLeftover'] }} €</td>
+            {% endif %}
+            <td>{{ budget['spendings'] }} €</td>
+            <td>{{ budget['plannedSpendings'] }} €</td>
+          </tr>
+        </table>
+      </div>
+      <!-- ################ -->
+      <!-- Expenditure List -->
+      <!-- ################ -->
+      <ul>
+        {% for expenditure in budget['expenditures'] %}
+        <li>
+          <form style="display: inline;" method="POST" action="{{ url_for('editexpenditure', _external=true) }}">
+            {{ expModifyForm.csrf_token }}
+            {{ expModifyForm.id(value=expenditure['id']) }}
+            {{ expModifyForm.title(value=expenditure['title']) }}
+            {{ expModifyForm.price(value=expenditure['price'], class='numberinput') }} €
+            {% if expenditure['payed'] %}
+              {{ expModifyForm.payed(checked=True) }}
+            {% else %}
+              {{ expModifyForm.payed() }}
+            {% endif %}
+            {{ expModifyForm.submit(value='Edit') }}
+          </form>
+          <form style="display: inline;" method="POST" action="{{ url_for('deleteexpenditure', _external=true) }}">
+            {{ expDeleteForm.csrf_token }}
+            {{ expDeleteForm.id(value=expenditure['id']) }}
+            {{ expDeleteForm.submit() }}
+          </form>
+        </li>
+        {% endfor %}
+        <!-- ################### -->
+        <!-- Add New Expenditure -->
+        <!-- ################### -->
+        <li>
+          <input id="{{ budget['id'] }}" class="expAddTitle" type="text"></input>
+          <input id="{{ budget['id'] }}" class="expAddPrice numberinput" type="text"> €</input>
+          <input id="{{ budget['id'] }}" class="expAddPayed" type="checkbox"></input>
+          <input id="{{ budget['id'] }}" class="expAddSubmit" type="submit" value="Add"></input>
+          <span id="{{ budget['id'] }}" class="expAddResult"></span>
+        </li>
+      </ul>
+    </div>
+
+    {% endfor %}
+  </div>
+  <!-- ############### -->
+  <!-- End Budget List -->
+  <!-- ############### -->
+
+
+  <!-- ############## -->
+  <!-- Add New Budget -->
+  <!-- ############## -->
+  <div>
+    <form method="POST" action="{{ url_for('addbudget', _external=true) }}">
+      {{ budgetAddForm.csrf_token }}
+      {{ budgetAddForm.termid(value=data['id']) }}
+      {{ budgetAddForm.budgettemplateid(choices=[('muh','ich weiß ja nicht')]) }}
+      {{ budgetAddForm.submit() }}
+    </form>
+    <form method="POST" action="{{ url_for('addterm', _external=true) }}">
+      {{ termAddForm.csrf_token }}
+      {{ termAddForm.title }}
+      {{ termAddForm.income }}
+      {{ termAddForm.submit }}
+    </form>
+  </div>
+{% endblock content %}
