@@ -77,19 +77,6 @@ def home():
 def fixedcosts():
     return render_template('fixedcosts.html', title="Fixed Costs")
 
-@app.route("/createexpenditure", methods=['POST'])
-def createexpenditure():
-    form = ExpModifyForm()
-    if form.validate_on_submit():
-        newExpenditure = Expenditure(title=form.title.data,
-                                     price=form.price.data,
-                                     payed=form.payed.data,
-                                     budget_id=form.id.data)
-        db.session.add(newExpenditure)
-        db.session.commit()
-        return redirect(request.referrer)
-    return redirect(url_for('term'))
-
 @app.route("/addbudget", methods=['POST'])
 def addbudget():
     form = BudgetAddForm()
