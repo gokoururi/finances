@@ -94,18 +94,13 @@
       <ul>
         {% for expenditure in budget['expenditures'] %}
         <li>
-          <form style="display: inline;" method="POST" action="{{ url_for('editexpenditure', _external=true) }}">
-            {{ expModifyForm.csrf_token }}
-            {{ expModifyForm.id(value=expenditure['id']) }}
-            {{ expModifyForm.title(value=expenditure['title']) }}
-            {{ expModifyForm.price(value=expenditure['price'], class='numberinput') }} €
-            {% if expenditure['payed'] %}
-              {{ expModifyForm.payed(checked=True) }}
-            {% else %}
-              {{ expModifyForm.payed() }}
-            {% endif %}
-            {{ expModifyForm.submit(value='Edit') }}
-          </form>
+          <!-- ################### -->
+          <!-- Edit Expenditure -->
+          <!-- ################### -->
+          <input id="{{ expenditure['id'] }}" type="text"     class="expModTitle"             value="{{ expenditure['title'] }}"></input>
+          <input id="{{ expenditure['id'] }}" type="text"     class="expModPrice numberinput" value="{{ expenditure['price'] }}"></input> €
+          <input id="{{ expenditure['id'] }}" type="checkbox" class="expModPayed"             {% if expenditure['payed'] %}checked{% endif %}></input>
+          <input id="{{ expenditure['id'] }}" type="submit"   class="expModSubmit"            value="Modify"></input>
           <!-- ################### -->
           <!-- Delete Expenditure -->
           <!-- ################### -->

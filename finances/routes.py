@@ -12,6 +12,25 @@ def removeExp(expId):
     db.session.commit()
     return jsonify({"result": "deleted"})
 
+@app.route('/_modExp')
+def modExp():
+    title = request.args.get('title', 'None', type=str)
+    price = request.args.get('price', 0, type=float)
+    payed = request.args.get('payed', False, type=str)
+    expenditureid = request.args.get('expenditureid', type=int)
+
+    if payed == 'true':
+        payed = True
+    else:
+        payed = False
+
+    expenditure = Expenditure.query.filter(Expenditure.id==expenditureid)
+    expenditure.update({'title': title,
+                        'price': price,
+                        'payed': payed})
+    db.session.commit()
+    return jsonify({"result": "Modified"})
+
 @app.route('/_addExp')
 def addExp():
     title = request.args.get('title', 'None', type=str)
@@ -57,16 +76,6 @@ def home():
 @app.route("/fixedcosts")
 def fixedcosts():
     return render_template('fixedcosts.html', title="Fixed Costs")
-
-@app.route("/editexpenditure", methods=['POST'])
-def editexpenditure():
-    form = ExpModifyForm()
-    expenditure = Expenditure.query.filter(Expenditure.id==form.id.data)
-    expenditure.update({'title': form.title.data,
-                        'price': form.price.data,
-                        'payed': form.payed.data})
-    db.session.commit()
-    return redirect(request.referrer)
 
 @app.route("/createexpenditure", methods=['POST'])
 def createexpenditure():

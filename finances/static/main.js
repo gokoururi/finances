@@ -3,6 +3,7 @@ function onLoad() {
   $('button.trigger').bind('click', getBudgetData);
   $('input.expAddSubmit').bind('click', addExp);
   $('input.expRemoveSubmit').bind('click', removeExp);
+  $('input.expModSubmit').bind('click', modExp);
 }
 
 function displayAddExpReturn(request, id) {
@@ -16,6 +17,23 @@ function removeExp(event) {
     $SCRIPT_ROOT + '/_removeExp/' + bId, function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
   ).fail(
     function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
+  )
+}
+
+function modExp(event) {
+  var eId = event.target.id
+
+  var exp = {
+    title: $("#" + eId + ".expModTitle").val(),
+    price: $("#" + eId + ".expModPrice").val(),
+    payed: $("#" + eId + ".expModPayed").is(':checked'),
+    expenditureid: eId
+  }
+
+  $.getJSON(
+    $SCRIPT_ROOT + '/_modExp', exp, function(jqXHR) { displayAddExpReturn(jqXHR, eId); }
+  ).fail(
+    function(jqXHR) { displayAddExpReturn(jqXHR, eId); }
   )
 }
 
