@@ -106,11 +106,10 @@
             {% endif %}
             {{ expModifyForm.submit(value='Edit') }}
           </form>
-          <form style="display: inline;" method="POST" action="{{ url_for('deleteexpenditure', _external=true) }}">
-            {{ expDeleteForm.csrf_token }}
-            {{ expDeleteForm.id(value=expenditure['id']) }}
-            {{ expDeleteForm.submit() }}
-          </form>
+          <!-- ################### -->
+          <!-- Delete Expenditure -->
+          <!-- ################### -->
+          <input type="submit" value="Remove" class="expRemoveSubmit" id="{{ expenditure['id'] }}"></input>
         </li>
         {% endfor %}
         <!-- ################### -->

@@ -6,6 +6,12 @@ from finances.data import *
 # from flaskblog.forms import RegistrationForm, LoginForm
 # from flaskblog.models import User, Post
 
+@app.route('/_removeExp/<int:expId>')
+def removeExp(expId):
+    Expenditure.query.filter(Expenditure.id==expId).delete()
+    db.session.commit()
+    return jsonify({"result": "deleted"})
+
 @app.route('/_addExp')
 def addExp():
     title = request.args.get('title', 'None', type=str)
@@ -74,13 +80,6 @@ def createexpenditure():
         db.session.commit()
         return redirect(request.referrer)
     return redirect(url_for('term'))
-
-@app.route("/deleteexpenditure", methods=['POST'])
-def deleteexpenditure():
-    form = ExpDeleteForm()
-    Expenditure.query.filter(Expenditure.id==form.id.data).delete()
-    db.session.commit()
-    return redirect(request.referrer)
 
 @app.route("/addbudget", methods=['POST'])
 def addbudget():

@@ -2,11 +2,21 @@ function onLoad() {
   $('a#calculate').bind('click', getCalculation);
   $('button.trigger').bind('click', getBudgetData);
   $('input.expAddSubmit').bind('click', addExp);
+  $('input.expRemoveSubmit').bind('click', removeExp);
 }
 
 function displayAddExpReturn(request, id) {
   $("#" + id + ".expAddResult").text(request.result);
   location.reload()
+}
+
+function removeExp(event) {
+  var bId = event.target.id
+  $.getJSON(
+    $SCRIPT_ROOT + '/_removeExp/' + bId, function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
+  ).fail(
+    function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
+  )
 }
 
 function addExp(event) {
