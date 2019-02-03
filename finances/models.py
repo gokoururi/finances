@@ -5,6 +5,7 @@ class Term(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
     income = db.Column(db.Float)
+    budgets = db.relationship('Budget', backref='term', lazy=True)
 
 
 class Budgettemplate(db.Model):
@@ -19,6 +20,7 @@ class Budget(db.Model):
     budget = db.Column(db.Float)
     closed = db.Column(db.Boolean, default=False)
     term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
+    expenditures = db.relationship('Expenditure', backref='budget', lazy=True)
 
 
 class Expenditure(db.Model):
