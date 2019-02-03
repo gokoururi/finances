@@ -100,7 +100,7 @@
           <input id="{{ expenditure['id'] }}" type="text"     class="expModTitle"             value="{{ expenditure['title'] }}"></input>
           <input id="{{ expenditure['id'] }}" type="text"     class="expModPrice numberinput" value="{{ expenditure['price'] }}"></input> €
           <input id="{{ expenditure['id'] }}" type="checkbox" class="expModPayed"             {% if expenditure['payed'] %}checked{% endif %}></input>
-          <input id="{{ expenditure['id'] }}" type="submit"   class="expModSubmit"            value="Modify"></input>
+          <input id="{{ expenditure['id'] }}" type="submit"   class="expModSubmit"            data-budgetid="{{ budget['id'] }}" value="Modify"></input>
           <!-- ################### -->
           <!-- Delete Expenditure -->
           <!-- ################### -->

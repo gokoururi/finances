@@ -22,6 +22,7 @@ function removeExp(event) {
 
 function modExp(event) {
   var eId = event.target.id
+  var bId = event.target.dataset.budgetid
 
   var exp = {
     title: $("#" + eId + ".expModTitle").val(),
@@ -31,9 +32,9 @@ function modExp(event) {
   }
 
   $.getJSON(
-    $SCRIPT_ROOT + '/_modExp', exp, function(jqXHR) { displayAddExpReturn(jqXHR, eId); }
+    $SCRIPT_ROOT + '/_modExp', exp, function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
   ).fail(
-    function(jqXHR) { displayAddExpReturn(jqXHR, eId); }
+    function(jqXHR) { displayAddExpReturn(jqXHR, bId); }
   )
 }
 

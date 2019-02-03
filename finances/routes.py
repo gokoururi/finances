@@ -17,19 +17,19 @@ def modExp():
     title = request.args.get('title', 'None', type=str)
     price = request.args.get('price', 0, type=float)
     payed = request.args.get('payed', False, type=str)
-    expenditureid = request.args.get('expenditureid', type=int)
+    expId = request.args.get('expenditureid', type=int)
 
     if payed == 'true':
         payed = True
     else:
         payed = False
 
-    expenditure = Expenditure.query.filter(Expenditure.id==expenditureid)
+    expenditure = Expenditure.query.filter(Expenditure.id==expId)
     expenditure.update({'title': title,
                         'price': price,
                         'payed': payed})
     db.session.commit()
-    return jsonify({"result": "Modified"})
+    return jsonify({"result": expId})
 
 @app.route('/_addExp')
 def addExp():
