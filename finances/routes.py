@@ -3,8 +3,6 @@ from finances import app, db
 from finances.models import Term, Budgettemplate, Budget, Expenditure
 from finances.forms import *
 from finances.data import *
-# from flaskblog.forms import RegistrationForm, LoginForm
-# from flaskblog.models import User, Post
 
 @app.route('/_removeExp/<int:expId>')
 def removeExp(expId):
@@ -174,7 +172,6 @@ def term(id=False):
 
     data = TermObj(req_term).get()
 
-    #expenditures = Expenditure.query.all()
     return render_template('term.html', title='Term', data=data,
                            expModifyForm=expModifyForm,
                            expDeleteForm=expDeleteForm,
