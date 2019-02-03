@@ -124,6 +124,21 @@ def addterm():
     db.session.commit()
     return redirect(request.referrer)
 
+@app.route("/deleteTerm/<int:termId>")
+def deleteTerm(termId):
+    term = Term.query.filter(Term.id==termId).first()
+    budgets = Budget.query.filter(Budget.term_id==termId)
+    for budget in budgets:
+        expenditures = Expenditure.query.filter(Expenditure.budget_id==budget.id)
+        for expenditure in expenditures:
+            Expenditure.query.filter(Expenditure.id==expenditure.id).delete()
+            db.session.commit()
+        Budget.query.filter(Budget.id==budget.id).delete()
+        db.session.commit()
+    Term.query.filter(Term.id==termId).delete()
+    db.session.commit()
+    return jsonify({"result": "Deleted Term " + str(termId) + ", budgets and expenditures."})
+
 @app.route("/copyterm", methods=['POST'])
 def copyterm():
     form = TermCopyForm()
