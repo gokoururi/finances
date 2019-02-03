@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Term List</h1>
+  <ul>
+    {%for term in terms %}
+      <li>
+        <input type="text"   id="{{ term.id }}" class="termModTitle"  value="{{ term.title }}"></input>
+        <input type="text"   id="{{ term.id }}" class="termModIncome" value="{{ term.income }}"></input>
+        <input type="submit" id="{{ term.id }}" class="termModSubmit" value="Modify"></input>
+        <a href="{{ url_for('term_list', _external=true) }}/{{ term.id }}" style="text-decoration: none; color: #000;">→</a>
+        <span id="{{ term.id }}" class="expAddResult"></span>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

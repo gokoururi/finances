@@ -4,6 +4,18 @@ from finances.models import Term, Budgettemplate, Budget, Expenditure
 from finances.forms import *
 from finances.data import *
 
+@app.route("/_modTerm")
+def modTerm():
+    title = request.args.get('title', 'None', type=str)
+    income = request.args.get('income', 'None', type=float)
+    termId = request.args.get('termid', type=int)
+
+    term = Term.query.filter(Term.id==termId)
+    term.update({'title': title,
+                 'income': income})
+    db.session.commit()
+    return jsonify({"result": termId})
+
 @app.route('/_removeExp/<int:expId>')
 def removeExp(expId):
     Expenditure.query.filter(Expenditure.id==expId).delete()
@@ -148,8 +160,13 @@ def modifyterm():
     db.session.commit()
     return redirect(request.referrer)
 
+@app.route("/term")
+def term_list():
+    terms = Term.query.all()
+    return render_template('term_list.html', title='Term List', terms=terms)
+
+
 @app.route("/term/<int:id>", methods=['GET'])
-@app.route("/term", methods=['GET'])
 def term(id=False):
     try:
         req_term = request.view_args['id']

@@ -4,6 +4,24 @@ function onLoad() {
   $('input.expAddSubmit').bind('click', addExp);
   $('input.expRemoveSubmit').bind('click', removeExp);
   $('input.expModSubmit').bind('click', modExp);
+  $('input.expModSubmit').bind('click', modExp);
+  $('input.termModSubmit').bind('click', modTerm);
+}
+
+function modTerm(event) {
+  var tId = event.target.id
+
+  var term = {
+    title: $("#" + tId + ".termModTitle").val(),
+    income: $("#" + tId + ".termModIncome").val(),
+    termid: tId
+  }
+
+  $.getJSON(
+    $SCRIPT_ROOT + '/_modTerm', term, function(jqXHR) { displayAddExpReturn(jqXHR, tId); }
+  ).fail(
+    function(jqXHR) { displayAddExpReturn(jqXHR, tId); }
+  )
 }
 
 function displayAddExpReturn(request, id) {
