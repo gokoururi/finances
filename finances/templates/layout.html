@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css', _external=true) }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css', _scheme='https', _external=true) }}">
     <title>
       {% if title %}
         Finances - {{ title }}
@@ -16,14 +16,14 @@
       //$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
       $SCRIPT_ROOT = {{ request.headers.get('X-Script-Name')|tojson|safe }};
     </script>
-    <script type=text/javascript src="{{ url_for('static', filename='jquery-3.3.1.min.js', _external=true) }}"></script>
-    <script type=text/javascript src="{{ url_for('static', filename='main.js', _external=true) }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='jquery-3.3.1.min.js', _scheme='https', _external=true) }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='main.js', _scheme='https', _external=true) }}"></script>
     <ul class="nav">
-      <li><a href="{{ url_for('home', _external=true) }}">Home</a></li>
-      <li><a href="{{ url_for('term_list', _external=true) }}">Term</a></li>
+      <li><a href="{{ url_for('home', _scheme='https', _external=true) }}">Home</a></li>
+      <li><a href="{{ url_for('term_list', _scheme='https', _external=true) }}">Term</a></li>
       <li><a href="#">Budgets</a></li>
-      <li><a href="{{ url_for('fixedcosts', _external=true) }}">Fixed costs</a></li>
-      <li><a href="{{ url_for('jquery', _external=true) }}">JQuery</a></li>
+      <li><a href="{{ url_for('fixedcosts', _scheme='https', _external=true) }}">Fixed costs</a></li>
+      <li><a href="{{ url_for('jquery', _scheme='https', _external=true) }}">JQuery</a></li>
     </ul>
     <div class="content">
       {% block content %}{% endblock %}

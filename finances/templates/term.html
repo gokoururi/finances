@@ -5,7 +5,7 @@
   <!-- ################# -->
   <!-- Copy Current Term -->
   <!-- ################# -->
-  <form style="display: inline;" method="POST" action="{{ url_for('copyterm', _external=true) }}">
+  <form style="display: inline;" method="POST" action="{{ url_for('copyterm', _scheme='https', _external=true) }}">
     {{ termCopyForm.csrf_token }}
     {{ termCopyForm.id(value=data['id']) }}
     {{ termCopyForm.submit }}
@@ -24,7 +24,7 @@
     </tr>
     <tr>
       <td>
-        <form style="display: inline;" method="POST" action="{{ url_for('modifyterm', _external=true) }}">
+        <form style="display: inline;" method="POST" action="{{ url_for('modifyterm', _scheme='https', _external=true) }}">
           {{ termModifyForm.csrf_token }}
           {{ termModifyForm.id(value=data['id']) }}
           {{ termModifyForm.income(value=data['income']) }} €
@@ -48,7 +48,7 @@
       <!-- Budget Header -->
       <!-- ############# -->
       <div class="budgethead">
-        <form style="display: inline;" method="POST" action="{{ url_for('editbudget', _external=true) }}">
+        <form style="display: inline;" method="POST" action="{{ url_for('editbudget', _scheme='https', _external=true) }}">
           {{ budgetModifyForm.csrf_token }}
           {{ budgetModifyForm.id(value=budget['id']) }}
           {{ budgetModifyForm.title(value=budget['title'], class='budgettitle') }}
@@ -64,7 +64,7 @@
           {% endif %}
           {{ budgetModifyForm.submit(value='Edit') }}
         </form>
-        <form style="display: inline;" method="POST" action="{{ url_for('deletebudget', _external=true) }}">
+        <form style="display: inline;" method="POST" action="{{ url_for('deletebudget', _scheme='https', _external=true) }}">
           {{ budgetDeleteForm.csrf_token }}
           {{ budgetDeleteForm.id(value=budget['id']) }}
           {{ budgetDeleteForm.submit(value='Delete') }}
@@ -131,13 +131,13 @@
   <!-- Add New Budget -->
   <!-- ############## -->
   <div>
-    <form method="POST" action="{{ url_for('addbudget', _external=true) }}">
+    <form method="POST" action="{{ url_for('addbudget', _scheme='https', _external=true) }}">
       {{ budgetAddForm.csrf_token }}
       {{ budgetAddForm.termid(value=data['id']) }}
       {{ budgetAddForm.budgettemplateid(choices=[('muh','ich weiß ja nicht')]) }}
       {{ budgetAddForm.submit() }}
     </form>
-    <form method="POST" action="{{ url_for('addterm', _external=true) }}">
+    <form method="POST" action="{{ url_for('addterm', _scheme='https', _external=true) }}">
       {{ termAddForm.csrf_token }}
       {{ termAddForm.title }}
       {{ termAddForm.income }}
