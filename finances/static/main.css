@@ -57,6 +57,13 @@ table.termdata td {
   background: #939393;
 }
 
+table.termdata input {
+  color: #FFF;
+  background: #939393;
+  border: 0;
+  width: 50px;
+}
+
 .budgethead table {
   margin-top: 5px;
   color: #8b7642;
