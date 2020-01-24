@@ -175,8 +175,8 @@ def modifyterm():
     db.session.commit()
     return redirect(request.referrer)
 
-@app.route("/linkterm/<int:targetid>/<int:sourceid>", methods=['GET'])
-def link_term(targetid, sourceid):
+@app.route("/api/linkterm/<int:targetid>/<int:sourceid>", methods=['GET'])
+def api_link_term(targetid, sourceid):
     try:
         targetid = request.view_args['targetid']
         sourceid = request.view_args['sourceid']
