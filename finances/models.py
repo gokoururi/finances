@@ -8,6 +8,11 @@ class Term(db.Model):
     budgets = db.relationship('Budget', backref='term', lazy=True)
 
 
+class Termlink(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    linkedterm = db.Column(db.Integer)
+
+
 class Budgettemplate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))

@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from finances import app, db
-from finances.models import Term, Budgettemplate, Budget, Expenditure
+from finances.models import Term, Termlink, Budgettemplate, Budget, Expenditure
 from finances.forms import *
 from finances.data import *
 
@@ -174,6 +174,27 @@ def modifyterm():
     term.update({'income': form.income.data})
     db.session.commit()
     return redirect(request.referrer)
+
+@app.route("/linkterm/<int:targetid>/<int:sourceid>", methods=['GET'])
+def link_term(targetid, sourceid):
+    try:
+        targetid = request.view_args['targetid']
+        sourceid = request.view_args['sourceid']
+    except KeyError:
+        return jsonify({"Status": "failed to read parameters"})
+
+    termlinkQuery = Termlink.query.filter(Termlink.id==targetid)
+    termlink = termlinkQuery.first()
+    if termlink:
+        termlinkQuery.update({'linkedterm': sourceid})
+        db.session.commit()
+        return jsonify({"Status": "Link updated"})
+    else:
+        newTermlink = Termlink(id=targetid, linkedterm=sourceid)
+        db.session.add(newTermlink)
+        db.session.commit()
+        return jsonify({"Status": "Link created"})
+
 
 @app.route("/term")
 def term_list():

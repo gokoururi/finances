@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 from finances import routes
 
-from finances.models import Term, Budgettemplate, Budget, Expenditure
+from finances.models import Term, Termlink, Budgettemplate, Budget, Expenditure
 
 if not os.path.isfile(dbPath):
     data = [
@@ -29,3 +29,5 @@ if not os.path.isfile(dbPath):
     db.create_all()
     db.session.add_all(data)
     db.session.commit()
+else:
+    db.create_all()

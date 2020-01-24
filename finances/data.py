@@ -85,6 +85,11 @@ class TermObj:
         self.title = term.title
         self.income = term.income
         self.budgets = self.getBudgets()
+        self.linked = False
+        linkedTerm = Termlink.query.filter(Termlink.id==id).first()
+        if linkedTerm:
+            self.linked = True
+            self.linkedTerm = TermObj(linkedTerm.linkedterm)
 
     def getBudgets(self):
         budgets = []
@@ -102,6 +107,8 @@ class TermObj:
         value = self.income
         for budget in self.budgets:
             value = value - budget.spendings()
+        if self.linked:
+            value = value + self.linkedTerm.leftover()
         return value
 
     def plannedLeftover(self):
@@ -111,6 +118,8 @@ class TermObj:
                 value = value - budget.budget
             else:
                 value = value - budget.plannedSpendings()
+        if self.linked:
+            value = value + self.linkedTerm.plannedLeftover()
         return value
 
     def spendings(self):
@@ -136,4 +145,5 @@ class TermObj:
                 'plannedLeftover': '%0.2f' % self.plannedLeftover(),
                 'spendings': '%0.2f' % self.spendings(),
                 'plannedSpendings': '%0.2f' % self.plannedSpendings(),
-                'budgets': self.getObjDicts(self.budgets)}
+                'budgets': self.getObjDicts(self.budgets),
+                'linked': self.linked}
