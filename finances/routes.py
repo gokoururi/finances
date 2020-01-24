@@ -198,6 +198,34 @@ def api_link_term(targetid, sourceid):
         db.session.commit()
         return jsonify({"Status": "Link created"})
 
+@app.route("/api/linkterm/<int:targetid>", methods=['DELETE'])
+def api_link_term_delete(targetid):
+    try:
+        targetid = request.view_args['targetid']
+    except KeyError:
+        return jsonify({"Status": "failed to read parameters"})
+
+    termlinkQuery = Termlink.query.filter(Termlink.id==targetid)
+    if termlinkQuery.first():
+        termlinkQuery.delete()
+        db.session.commit()
+        return jsonify({"Status": "Link deleted"})
+    else:
+        return jsonify({"Status": "Link not found"})
+
+
+@app.route("/api/term/<int:id>", methods=['GET'])
+def api_term(id):
+    try:
+        termid = request.view_args['id']
+    except KeyError:
+        return jsonify({"Status": "Failed to read parameters"})
+
+    if Term.query.filter(Term.id==termid).first():
+        return jsonify(TermObj(termid).get())
+    else:
+        return jsonify({"Status": "Term not found"})
+
 
 @app.route("/term")
 def term_list():
