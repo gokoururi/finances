@@ -22,6 +22,10 @@
       <th>Spendings</th>
       <th>Planned Spendings</th>
       <th>Linked</th>
+      {% if data['linked'] %}
+        <th>Linked Leftover</th>
+        <th>Linked Planned Leftover</th>
+      {% endif %}
     </tr>
     <tr>
       <td>
@@ -35,7 +39,13 @@
       <td>{{ data['plannedLeftover'] }} €</td>
       <td>{{ data['spendings'] }} €</td>
       <td>{{ data['plannedSpendings'] }} €</td>
-      <td>{{ data['linked']}}</td>
+      {% if data['linked'] %}
+        <td>{{ data['linkedTerm']['title'] }}</td>
+        <td>{{ data['linkedTerm']['leftover'] }}</td>
+        <td>{{ data['linkedTerm']['plannedLeftover'] }}</td>
+      {% else %}
+        <td>-</td>
+      {% endif %}
     </tr>
   </table>
 

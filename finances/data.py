@@ -86,10 +86,12 @@ class TermObj:
         self.income = term.income
         self.budgets = self.getBudgets()
         self.linked = False
+        self.linkedTermDict = {}
         linkedTerm = Termlink.query.filter(Termlink.id==id).first()
         if linkedTerm:
             self.linked = True
             self.linkedTerm = TermObj(linkedTerm.linkedterm)
+            self.linkedTermDict = self.linkedTerm.get()
 
     def getBudgets(self):
         budgets = []
@@ -146,4 +148,5 @@ class TermObj:
                 'spendings': '%0.2f' % self.spendings(),
                 'plannedSpendings': '%0.2f' % self.plannedSpendings(),
                 'budgets': self.getObjDicts(self.budgets),
-                'linked': self.linked}
+                'linked': self.linked,
+                'linkedTerm': self.linkedTermDict}
