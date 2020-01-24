@@ -183,6 +183,9 @@ def link_term(targetid, sourceid):
     except KeyError:
         return jsonify({"Status": "failed to read parameters"})
 
+    if targetid == sourceid:
+        return jsonify({"Status": "Link aborted. Cannot link term to itself"})
+
     termlinkQuery = Termlink.query.filter(Termlink.id==targetid)
     termlink = termlinkQuery.first()
     if termlink:
