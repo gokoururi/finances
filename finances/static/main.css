@@ -191,3 +191,53 @@ ul.nav li a {
   color: #d1ece1;
   text-decoration: none;
 }
+
+ul.termlist {
+    font-size: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+ul.termlist li {
+    padding: 5px 20px;
+}
+ul.termlist li:hover {
+    color: white;
+    background: darkgrey;
+}
+
+ul.termlist li input {
+    color: inherit;
+    font-size: 20px;
+    border: none;
+    background: none;
+}
+
+ul.termlist li input.termModTitle {
+    width: 160px;
+}
+
+ul.termlist li input.termModIncome {
+    width: 80px;
+}
+
+ul.termlist li input.termModSubmit, ul.termlist li a {
+    border: 1px solid #939393;
+    border-radius: 3px;
+    background: #bababa;
+    color: grey;
+    cursor: pointer;
+}
+
+ul.termlist li input.termModSubmit:hover, ul.termlist li a:hover {
+    border: 1px solid #939393;
+    border-radius: 3px;
+    background: #939393;
+    color: lightgrey;
+    cursor: pointer;
+}
+
+ul.termlist li a {
+    text-decoration: none;
+    padding: 0 5px;
+}
