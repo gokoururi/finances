@@ -79,7 +79,7 @@ class BudgetObj:
 
 
 class TermObj:
-    def __init__(self, id):
+    def __init__(self, id, withLink=True):
         term = Term.query.filter(Term.id==id).first()
         self.id = term.id
         self.title = term.title
@@ -87,11 +87,12 @@ class TermObj:
         self.budgets = self.getBudgets()
         self.linked = False
         self.linkedTermDict = {}
-        linkedTerm = Termlink.query.filter(Termlink.id==id).first()
-        if linkedTerm:
-            self.linked = True
-            self.linkedTerm = TermObj(linkedTerm.linkedterm)
-            self.linkedTermDict = self.linkedTerm.get()
+        if withLink:
+            linkedTerm = Termlink.query.filter(Termlink.id==id).first()
+            if linkedTerm:
+                self.linked = True
+                self.linkedTerm = TermObj(id=linkedTerm.linkedterm, withLink=False)
+                self.linkedTermDict = self.linkedTerm.get()
 
     def getBudgets(self):
         budgets = []
