@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<script>
+    loadTermData({'target': {'id': '{{ termid }}' } })
+</script>
+
+  <p>
+    Term ID: {{ termid }}
+    <button class="loadTermData" id="{{ termid }}">Load</button>
+  </p>
+  <table class="termdata termDataTable">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Leftover</th>
+            <th>Planned Leftover</th>
+            <th>Spendings</th>
+            <th>Planned Spendings</th>
+            <th>Linked</th>
+            <th>Linked Leftover</th>
+            <th>Linked Planned Leftover</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="termData" id="title">-</td>
+            <td class="termData" id="leftover">-</td>
+            <td class="termData" id="plannedLeftover">-</td>
+            <td class="termData" id="spendings">-</td>
+            <td class="termData" id="plannedSpendings">-</td>
+            <td class="termData" id="linked">-</td>
+            <td class="termData" id="linked_leftover">-</td>
+            <td class="termData" id="linked_plannedLeftover">-</td>
+        </tr>
+    </tbody>
+  </table>
+  <div class="budgetlist"></div>
+  <div class="termDataDisplay"></div>
+{% endblock content %}

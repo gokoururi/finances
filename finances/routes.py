@@ -219,12 +219,22 @@ def api_term(id):
     try:
         termid = request.view_args['id']
     except KeyError:
-        return jsonify({"Status": "Failed to read parameters"})
+        return jsonify({"Status": "Failed to read parameters"}), 400
 
     if Term.query.filter(Term.id==termid).first():
         return jsonify(TermObj(termid).get())
     else:
-        return jsonify({"Status": "Term not found"})
+        return jsonify({"Status": f"Term with id '{id}' not found"}), 404
+
+
+@app.route('/backend/term/<int:id>', methods=['GET'])
+def backend_term(id):
+    try:
+        termid = request.view_args['id']
+    except KeyError:
+        return jsonify({"Status": "Failed to read parameters"}), 400
+
+    return render_template('term_new.html', title='Term New', termid=termid)
 
 
 @app.route("/term")

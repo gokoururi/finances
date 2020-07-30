@@ -6,6 +6,49 @@ function onLoad() {
   $('input.expModSubmit').bind('click', modExp);
   $('input.expModSubmit').bind('click', modExp);
   $('input.termModSubmit').bind('click', modTerm);
+  $('button.loadTermData').bind('click', loadTermData);
+}
+
+function loadTermData(event) {
+  var termId = event.target.id
+  $.getJSON(
+    $SCRIPT_ROOT + '/api/term/' + termId, {}, function(jqXHR) { displayTermData(jqXHR); }
+  ).fail(
+    function(jqXHR) { displayTermData(jqXHR); }
+  )
+}
+
+function displayTermData(term) {
+  $('.termDataDisplay').text(JSON.stringify(term));
+  termDataPoints = ['title', 'leftover', 'plannedLeftover', 'spendings', 'plannedSpendings']
+  $.each(termDataPoints, function(index, dataPoint) {
+    $('.termData#' + dataPoint).text(term[dataPoint]);
+  })
+
+  if (term.linked) {
+    $('.termData#linked').text(term['linkedTerm']['title'])
+    linkedDataPoints = ['leftover', 'plannedLeftover']
+    $.each(linkedDataPoints, function(index, linkedDataPoint) {
+      $('.termDataTable tbody #linked_' + linkedDataPoint).text(term['linkedTerm'][linkedDataPoint])
+    });
+  }
+
+  $.each(term['budgets'], function(index, budget) {
+      if ( $('.budget#' + budget.id).length ) {
+        $('.budget#' + budget.id + ' .budgettitle').text('wow');
+        $('.budget#' + budget.id + ' .budgetbudget').text('uwu');
+      } else {
+        var table = '<table><thead><tr>' +
+          '<th>title</th><th>Budget</th>' +
+          '</tr></thead><tbody><tr>' +
+          '<td class="budgettitle">'+ budget.title +'</td><td class="budgetbudget">'+ budget.budget +'</td>' +
+          '</tr></tbody></table>';
+        $('.budgetlist').append('<div class="budget" id="'+ budget.id +'"><div class="budgethead">' + table + '</div><ul></ul></div>');
+        $.each(budget.expenditures, function(index, exp) {
+            $('.budget#' + budget.id +' ul').append('<li>'+ exp.title +'</li>');
+        });
+      }
+  });
 }
 
 function modTerm(event) {
